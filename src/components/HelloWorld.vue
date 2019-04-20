@@ -124,7 +124,7 @@ export default {
   computed: {
     tweet_msg() {
       return this.result
-        ? `${this.counterpart_id} VS ${this.your_id} ${
+        ? `${this.counterpart_id}(${this.counter_contributions}) VS ${this.your_id}(${this.your_contributions}) ${
             this.message
           } ＃GitHubじゃんけん`
         : "GitHubのContribution数で勝負しよう！ #GitHubじゃんけん";
