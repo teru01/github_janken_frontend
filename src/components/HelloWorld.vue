@@ -33,7 +33,7 @@
         href="https://twitter.com/share?ref_src=twsrc%5Etfw"
         class="twitter-share-button"
         :data-text="tweet_msg"
-        data-url="http://hoge.com"
+        data-url="https://github-janken.herokuapp.com/"
         data-show-count="false"
       >Tweet</a>
     </div>
