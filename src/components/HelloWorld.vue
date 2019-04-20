@@ -7,18 +7,7 @@
     <h3 v-if="result" id="counter_contributions">{{ counter_contributions }}</h3>
 
     <h2 id="vs" v-if="!result">VS</h2>
-    <p v-if="result === 'LOSE'">
-      <img src="/you_lose.png">
-    </p>
-    <p v-if="result === 'WIN'">
-      <img src="/you_win.png">
-    </p>
-    <p v-if="result === 'DRAW'">
-      <img src="/draw.png">
-    </p>
-    <p v-if="result === 'ERROR'">
-      <img src="/error.png">
-    </p>
+    <p v-if="result"><img :src="image_path"></p>
     <h4 v-if="error">{{ error }}</h4>
     <h3 v-if="result">{{ your_contributions }}</h3>
 
@@ -129,6 +118,12 @@ export default {
 
       const first_script = document.getElementsByTagName("script")[0];
       first_script.parentNode.insertBefore(script, first_script);
+
+      const image = document.createElement("meta");
+      image.property = "og:image"
+      image.content = this.image_path
+      const head = document.getElementsByTagName("head")[0];
+      head.appendChild(image)
     },
   },
 
@@ -144,6 +139,20 @@ export default {
     copyright_date () {
       const y = new Date().getFullYear()
       return y > 2019 ? `2019-${y}` : "2019"
+    },
+
+    image_path () {
+      if(this.result === "WIN") {
+        return "/you_win.png"
+      } else if(this.result === "LOSE") {
+        return "/you_lose.png"
+      } else if(this.result === "DRAW") {
+        return "/draw.png"
+      } else if(this.result === "ERROR"){
+        return "/error.png"
+      } else {
+        return ""
+      }
     }
   }
 };
