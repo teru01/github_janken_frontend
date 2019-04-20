@@ -43,7 +43,7 @@
       <li>1.相手と自分のGitHub Usernameを入力します。</li><br>
       <li>2.Contribution数の多い方が勝ち。</li>
     </ul>
-    <small>&copy; {{copyright_date}} Teruya Ono(<a href="https://twitter.com/teru0x1">@teru0x1</a>).</small>
+    <small>&copy; {{copyright_date}} Teruya Ono <img src="/sheep_icon_2.png"><a href="https://twitter.com/teru0x1"> @teru0x1</a>.</small>
   </div>
 </template>
 <script>
