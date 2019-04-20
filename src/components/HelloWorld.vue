@@ -118,12 +118,6 @@ export default {
 
       const first_script = document.getElementsByTagName("script")[0];
       first_script.parentNode.insertBefore(script, first_script);
-
-      const image = document.createElement("meta");
-      image.property = "og:image"
-      image.content = this.image_path
-      const head = document.getElementsByTagName("head")[0];
-      head.appendChild(image)
     },
   },
 
