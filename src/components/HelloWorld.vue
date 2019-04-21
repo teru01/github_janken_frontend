@@ -1,13 +1,18 @@
 <template>
   <div class="hello">
-    <h1><img id="logo" src="/favicon.png">GitHubじゃんけん</h1>
+    <h1>
+      <img id="logo" src="/images/favicon.png">GitHubじゃんけん
+    </h1>
     <h3 for="counters">相手のGitHub Username</h3>
     <input type="text" name="counters" class="github_id" v-model="counterpart_id">
 
     <h3 v-if="result" id="counter_contributions">{{ counter_contributions }}</h3>
 
     <h2 id="vs" v-if="!result">VS</h2>
-    <p v-if="result"><img :src="image_path"></p>
+    <p v-if="result">
+      <img :src="image_path">
+    </p>
+    <p v-if="loading">loading...</p>
     <h4 v-if="error">{{ error }}</h4>
     <h3 v-if="result">{{ your_contributions }}</h3>
 
@@ -29,10 +34,15 @@
 
     <p>【遊び方】</p>
     <ul>
-      <li>1.相手と自分のGitHub Usernameを入力します。</li><br>
-      <li>2.Contribution数の多い方が勝ち。</li>
+      <li>1.相手と自分のGitHub Usernameを入力します。</li>
+      <br>
+      <li>2.直近1年間のContribution数の多い方が勝ち。</li>
     </ul>
-    <small>&copy; {{copyright_date}} Teruya Ono <img src="/sheep_icon_2.png"><a href="https://twitter.com/teru0x1"> @teru0x1</a>.</small>
+    <small>
+      &copy; {{copyright_date}} Teruya Ono
+      <img src="/images/sheep_icon.png">
+      <a href="https://twitter.com/teru0x1">@teru0x1</a>.
+    </small>
   </div>
 </template>
 <script>
@@ -47,7 +57,8 @@ export default {
       your_contributions: 0,
       error: "",
       result: "",
-      message: ""
+      message: "",
+      loading: false
     };
   },
 
@@ -59,7 +70,7 @@ export default {
 
       if (response.status === 404) {
         this.result = "ERROR";
-        throw new Error("GitHub IDは正しいですか？");
+        throw new Error("GitHub Usernameは正しいですか？");
       } else if (response.status !== 200) {
         this.result = "ERROR";
         throw new Error(
@@ -73,21 +84,42 @@ export default {
       this.error = "";
       this.result = "";
       this.message = "";
-      this.your_contributions = 0
-      this.counter_contributions = 0
+      this.loading = true;
+      this.your_contributions = 0;
+      this.counter_contributions = 0;
       try {
+        const regexp = /\w+/;
+        if (!(regexp.test(this.counterpart_id) && regexp.test(this.your_id))) {
+          this.result = "ERROR";
+          throw new Error("GitHub Usernameが不正です。");
+        }
         const [counters, yours] = await Promise.all([
           this.get_contributions(this.counterpart_id),
           this.get_contributions(this.your_id)
         ]);
+        this.loading = false;
         this.counter_contributions = counters;
 
         this.your_contributions = yours;
       } catch (e) {
         this.error = e.message;
+        this.loading = false;
         return;
       }
 
+      this.make_message();
+
+      // Twitterボタンの動的生成
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.charset = "utf-8";
+
+      const first_script = document.getElementsByTagName("script")[0];
+      first_script.parentNode.insertBefore(script, first_script);
+    },
+
+    make_message() {
       if (this.counter_contributions > this.your_contributions) {
         this.result = "LOSE";
         const messages = [
@@ -110,42 +142,34 @@ export default {
           "引き分け。今日1つcontributionしたら、あなたの勝ちです。";
         this.result = "DRAW";
       }
-      // Twitterボタンの動的生成
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = "https://platform.twitter.com/widgets.js";
-      script.charset = "utf-8";
-
-      const first_script = document.getElementsByTagName("script")[0];
-      first_script.parentNode.insertBefore(script, first_script);
-    },
+    }
   },
 
   computed: {
     tweet_msg() {
       return this.result
-        ? `${this.counterpart_id}(${this.counter_contributions}) VS ${this.your_id}(${this.your_contributions}) ${
-            this.message
-          } ＃GitHubじゃんけん`
+        ? `${this.counterpart_id}(${this.counter_contributions}) VS ${
+            this.your_id
+          }(${this.your_contributions}) ${this.message} ＃GitHubじゃんけん`
         : "GitHubのContribution数で勝負しよう！ #GitHubじゃんけん";
     },
 
-    copyright_date () {
-      const y = new Date().getFullYear()
-      return y > 2019 ? `2019-${y}` : "2019"
+    copyright_date() {
+      const y = new Date().getFullYear();
+      return y > 2019 ? `2019-${y}` : "2019";
     },
 
-    image_path () {
-      if(this.result === "WIN") {
-        return "/you_win.png"
-      } else if(this.result === "LOSE") {
-        return "/you_lose.png"
-      } else if(this.result === "DRAW") {
-        return "/draw.png"
-      } else if(this.result === "ERROR"){
-        return "/error.png"
+    image_path() {
+      if (this.result === "WIN") {
+        return "/images/you_win.png";
+      } else if (this.result === "LOSE") {
+        return "/images/you_lose.png";
+      } else if (this.result === "DRAW") {
+        return "/images/draw.png";
+      } else if (this.result === "ERROR") {
+        return "/images/error.png";
       } else {
-        return ""
+        return "";
       }
     }
   }
