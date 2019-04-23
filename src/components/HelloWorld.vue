@@ -130,7 +130,7 @@ export default {
     },
 
     share_result() {
-      this.make_hopup_window(this.message, "https://github-janken.herokuapp.com/");
+      this.make_hopup_window(this.tweet_msg, "https://github-janken.herokuapp.com/");
     },
 
     make_message() {
