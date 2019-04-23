@@ -97,7 +97,7 @@ export default {
         this.error = "自分のGitHub Usernameを入力してください。";
         return;
       }
-      this.make_hopup_window("じゃんけんしようぜ！", this.challenge_url);
+      this.make_hopup_window("GitHubじゃんけんで勝負だ！", this.challenge_url);
     },
 
     async janken_start() {
