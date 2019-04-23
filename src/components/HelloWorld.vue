@@ -97,7 +97,7 @@ export default {
       return response.data.contributions;
     },
 
-    my_challenge(event) {
+    challenge(event) {
       if (!this.your_id) {
         this.result = "ERROR";
         this.error = "自分のGitHub Usernameを入力してください。";
