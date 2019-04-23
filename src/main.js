@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
+import SocialSharing from 'vue-social-sharing'
+Vue.use(SocialSharing)
 
 Vue.use(BootstrapVue)
 import 'bootstrap/dist/css/bootstrap.css'

@@ -21,6 +21,17 @@
     <p id="janken_btn">
       <button class="janken" @click="janken_start">じゃんけん</button>
     </p>
+    <button :disabled="!this.your_id">
+      <social-sharing :url="challenge_url" title="じゃんけんしようぜ！" hashtags="GitHubじゃんけん" inline-template>
+        <div>
+          <network network="twitter">
+              <i class="fab fa-twitter"></i> 勝負を申し込む
+          </network>
+        </div>
+      </social-sharing>
+    </button>
+    <!-- <vue-goodshare-twitter page_url="https://github.com"
+    title_social="Facebook"></vue-goodshare-twitter> -->
     <p v-if="message">{{ message }}</p>
     <div v-if="result && result !== 'ERROR'" class="twitter">
       <a
@@ -34,9 +45,15 @@
 
     <p>【遊び方】</p>
     <ul>
-      <li>1.相手と自分のGitHub Usernameを入力します。</li>
+      <li>1.相手と自分のGitHub Usernameを入力します。(己自身と闘うこともできます)</li>
       <br>
       <li>2.直近1年間のContribution数の多い方が勝ち。</li>
+    </ul>
+    <p>【勝負を申し込む】</p>
+    <ul>
+      <li>1.自分のGitHub Usernameを入力します。</li>
+      <br>
+      <li>2.「勝負を申し込む」でURLを相手に送りつけましょう。</li>
     </ul>
     <small>
       &copy; {{copyright_date}} Teruya Ono
@@ -78,6 +95,19 @@ export default {
         );
       }
       return response.data.contributions;
+    },
+
+    my_challenge(event) {
+      if (!this.your_id) {
+        this.result = "ERROR";
+        this.error = "自分のGitHub Usernameを入力してください。";
+        // e.preventDefault();
+        if (event) {
+          // console.log("event")
+          event.stopPropagation();
+        }
+        return;
+      }
     },
 
     async janken_start() {
@@ -145,6 +175,11 @@ export default {
     }
   },
 
+  mounted() {
+    const params = new URLSearchParams(window.location.search);
+    this.counterpart_id = params.get("opponent_id");
+  },
+
   computed: {
     tweet_msg() {
       return this.result
@@ -152,6 +187,10 @@ export default {
             this.your_id
           }(${this.your_contributions}) ${this.message} ＃GitHubじゃんけん`
         : "GitHubのContribution数で勝負しよう！ #GitHubじゃんけん";
+    },
+
+    challenge_url() {
+      return `https://github-janken.herokuapp.com/?opponent_id=${this.your_id}`;
     },
 
     copyright_date() {
