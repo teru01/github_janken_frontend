@@ -21,27 +21,12 @@
     <p id="janken_btn">
       <button class="janken" @click="janken_start">じゃんけん</button>
     </p>
-    <button :disabled="!this.your_id">
-      <social-sharing :url="challenge_url" title="じゃんけんしようぜ！" hashtags="GitHubじゃんけん" inline-template>
-        <div>
-          <network network="twitter">
-              <i class="fab fa-twitter"></i> 勝負を申し込む
-          </network>
-        </div>
-      </social-sharing>
+    <button class="btn btn-outline-primary" @click="challenge" id="challenge"><i class="fab fa-twitter"></i> 勝負を申し込む
     </button>
-    <!-- <vue-goodshare-twitter page_url="https://github.com"
-    title_social="Facebook"></vue-goodshare-twitter> -->
-    <p v-if="message">{{ message }}</p>
     <div v-if="result && result !== 'ERROR'" class="twitter">
-      <a
-        href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-        class="twitter-share-button"
-        :data-text="tweet_msg"
-        data-url="https://github-janken.herokuapp.com/"
-        data-show-count="false"
-      >Tweet</a>
+      <button class="btn btn-outline-success" href="#" @click="share_result"><i class="fab fa-twitter"></i> 結果をツイート</button>
     </div>
+    <p v-if="message">{{ message }}</p>
 
     <p>【遊び方】</p>
     <ul>
@@ -97,17 +82,22 @@ export default {
       return response.data.contributions;
     },
 
-    challenge(event) {
+    make_hopup_window(message, url) {
+      const share_url = `https://twitter.com/intent/tweet?text=${message}&hashtags=GitHubじゃんけん&url=${url}`;
+      const option = 'status=1,width=500,height=400,top=100,left=100';
+      window.open(share_url, 'twitter', option);
+      return false;
+    },
+
+    challenge() {
+      this.error = "";
+      this.result = "";
       if (!this.your_id) {
         this.result = "ERROR";
         this.error = "自分のGitHub Usernameを入力してください。";
-        // e.preventDefault();
-        if (event) {
-          // console.log("event")
-          event.stopPropagation();
-        }
         return;
       }
+      this.make_hopup_window("じゃんけんしようぜ！", this.challenge_url);
     },
 
     async janken_start() {
@@ -136,17 +126,11 @@ export default {
         this.loading = false;
         return;
       }
-
       this.make_message();
+    },
 
-      // Twitterボタンの動的生成
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = "https://platform.twitter.com/widgets.js";
-      script.charset = "utf-8";
-
-      const first_script = document.getElementsByTagName("script")[0];
-      first_script.parentNode.insertBefore(script, first_script);
+    share_result() {
+      this.make_hopup_window(this.message, "https://github-janken.herokuapp.com/");
     },
 
     make_message() {
@@ -251,5 +235,9 @@ a {
 #logo {
   margin-right: 10px;
   margin-bottom: 8px;
+}
+
+#challenge {
+  margin-bottom: 20px;
 }
 </style>
