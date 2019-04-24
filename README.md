@@ -1,21 +1,8 @@
 # github_janken
 
-## Project setup
-```
-npm install
-```
+GitHubのContribution数でじゃんけん勝負できるサービスです。
+Twitterで相手に勝負を挑むこともできます。
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+![スクリーンショット 2019-04-21 21 16 19](https://user-images.githubusercontent.com/27873650/56628259-1543ec80-6684-11e9-8e06-dac66eb549d5.png)
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
+Qiita: [本田にGitHubのContribution数で勝てるサービス、「GitHubじゃんけん」を作った](https://qiita.com/teru0x1/items/070526cb40b4be9f0514)
