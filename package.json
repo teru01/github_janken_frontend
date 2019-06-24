@@ -10,7 +10,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": ">=0.18.0",
     "bootstrap": "^4.3",
     "bootstrap-vue": "^2.0.0-rc.18",
     "core-js": "^2.6.5",
