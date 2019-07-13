@@ -13,7 +13,7 @@
     "axios": ">=0.18.1",
     "bootstrap": "^4.3",
     "bootstrap-vue": "^2.0.0-rc.18",
-    "core-js": "^2.6.5",
+    "core-js": "^3.1.4",
     "express": "^4.16.4",
     "serve-static": "^1.13.2",
     "vue": "^2.6.10"
@@ -23,7 +23,7 @@
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-service": "^3.0.1",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
+    "eslint": "^6.0.1",
     "eslint-plugin-vue": "^5.0.0",
     "vue-template-compiler": "^2.5.21"
   },
