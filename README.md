@@ -1,5 +1,7 @@
 # GitHubじゃんけん
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/teru01/github_janken_frontend.svg)](https://greenkeeper.io/)
+
 GitHubのContribution数でじゃんけん勝負できるサービスです。
 Twitterで相手に勝負を挑むこともできます。
 
