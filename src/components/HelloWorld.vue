@@ -1,48 +1,51 @@
 <template>
   <div class="hello">
     <h1>
-      <img id="logo" src="/images/favicon.png">GitHubじゃんけん
+      <img id="logo" src="/images/favicon.png" />GitHubじゃんけん
     </h1>
     <h3 for="counters">相手のGitHub Username</h3>
-    <input type="text" name="counters" class="github_id" v-model="counterpart_id">
+    <input type="text" name="counters" class="github_id" v-model="counterpart_id" />
 
     <h3 v-if="result" id="counter_contributions">{{ counter_contributions }}</h3>
 
     <h2 id="vs" v-if="!result">VS</h2>
     <p v-if="result">
-      <img :src="image_path">
+      <img :src="image_path" />
     </p>
     <p v-if="loading">loading...</p>
     <h4 v-if="error">{{ error }}</h4>
     <h3 v-if="result">{{ your_contributions }}</h3>
 
     <h3 for="yours" class="github_id">あなたのGitHub Username</h3>
-    <input type="text" name="yours" v-model="your_id">
+    <input type="text" name="yours" v-model="your_id" />
     <p id="janken_btn">
       <button class="janken" @click="janken_start">じゃんけん</button>
     </p>
-    <button class="btn btn-outline-primary" @click="challenge" id="challenge"><i class="fab fa-twitter"></i> 勝負を申し込む
+    <button class="btn btn-outline-primary" @click="challenge" id="challenge">
+      <i class="fab fa-twitter"></i> 勝負を申し込む
     </button>
     <div v-if="result && result !== 'ERROR'" class="twitter">
-      <button class="btn btn-outline-success" href="#" @click="share_result"><i class="fab fa-twitter"></i> 結果をツイート</button>
+      <button class="btn btn-outline-success" href="#" @click="share_result">
+        <i class="fab fa-twitter"></i> 結果をツイート
+      </button>
     </div>
     <p v-if="message">{{ message }}</p>
 
     <p>【遊び方】</p>
     <ul>
       <li>1.相手と自分のGitHub Usernameを入力します。(己自身と闘うこともできます)</li>
-      <br>
+      <br />
       <li>2.直近1年間のContribution数の多い方が勝ち。</li>
     </ul>
     <p>【勝負を申し込む】</p>
     <ul>
       <li>1.自分のGitHub Usernameを入力します。</li>
-      <br>
+      <br />
       <li>2.「勝負を申し込む」でURLを相手に送りつけましょう。</li>
     </ul>
     <small>
       &copy; {{copyright_date}} Teruya Ono
-      <img src="/images/sheep_icon.png">
+      <img src="/images/sheep_icon.png" />
       <a href="https://twitter.com/teru0x1">@teru0x1</a>.
     </small>
   </div>
@@ -84,8 +87,8 @@ export default {
 
     make_hopup_window(message, url) {
       const share_url = `https://twitter.com/intent/tweet?text=${message}&hashtags=GitHubじゃんけん&url=${url}`;
-      const option = 'status=1,width=500,height=400,top=100,left=100';
-      window.open(share_url, 'twitter', option);
+      const option = "status=1,width=500,height=400,top=100,left=100";
+      window.open(share_url, "twitter", option);
       return false;
     },
 
@@ -130,7 +133,10 @@ export default {
     },
 
     share_result() {
-      this.make_hopup_window(this.tweet_msg, "https://github-janken.herokuapp.com/");
+      this.make_hopup_window(
+        this.tweet_msg,
+        "https://github-janken.herokuapp.com/"
+      );
     },
 
     make_message() {
@@ -167,9 +173,7 @@ export default {
   computed: {
     tweet_msg() {
       return this.result
-        ? `${this.counterpart_id}(${this.counter_contributions}) VS ${
-            this.your_id
-          }(${this.your_contributions}) ${this.message} ＃GitHubじゃんけん`
+        ? `${this.counterpart_id}(${this.counter_contributions}) VS ${this.your_id}(${this.your_contributions}) ${this.message} ＃GitHubじゃんけん`
         : "GitHubのContribution数で勝負しよう！ #GitHubじゃんけん";
     },
 
